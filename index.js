@@ -20,6 +20,16 @@ const background = new Sprite({
     imageSrc: './img/background.png'
 })
 
+const playerAnimations = {
+    idle: { folder: './img/windHashashin/PNG/idle', numFrames: 8 },
+    run: { folder: './img/windHashashin/PNG/run', numFrames: 8 },
+    jump: { folder: './img/windHashashin/PNG/jump', numFrames: 3 },
+    fall: { folder: './img/windHashashin/PNG/fall', numFrames: 3 },
+    attack: { folder: './img/windHashashin/PNG/attack', numFrames: 8 },
+    takeHit: { folder: './img/windHashashin/PNG/takeHit', numFrames: 6 },
+    death: { folder: './img/windHashashin/PNG/death', numFrames: 19 }
+}
+
 //creating player and set position and velocity
 const player = new Fighter({
     position: {
@@ -33,8 +43,13 @@ const player = new Fighter({
     offset: {
         x: 0,
         y: 0
-    }
+    },
+    animations: playerAnimations
 })
+
+//load and play idle animation
+player.loadAnimationFrames()
+player.playAnimation('idle')
 
 //creating enemy and set position and velocity
 const enemy = new Fighter({
@@ -73,12 +88,43 @@ const keys = {
 
 //create animation loop
 function animate() {
-    window.requestAnimationFrame(animate)
-    c.fillStyle = 'black'
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    background.update()
-    player.update()
-    enemy.update()
+    window.requestAnimationFrame(animate);
+    c.fillStyle = 'black';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+    background.update();
+    player.update();
+    enemy.update();
+
+    if (player.position.y + player.height >= 396) {
+        // Player has landed, so set isJumping to false
+        player.isJumping = false;
+    }
+
+    const isPlayerMoving = player.velocity.x !== 0; // Check if player is moving
+
+    // Play run animation if player is moving horizontally
+    if (isPlayerMoving && !player.isAttacking && !player.isJumping) {
+        player.playAnimation('run');
+
+    } else if (!player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+        player.playAnimation('idle');
+    } // <-- Here's the missing closing brace for the else if block
+
+    if (player.isJumping) {
+        if (!isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+            player.playAnimation('idle');
+        } else if (isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+            player.playAnimation('idle');
+        }
+    }
+
+    // Other animation logic...
+
+    //const isEnemyMoving = keys.ArrowLeft.pressed || keys.ArrowRight.pressed;
+
+    
+    //if (!isEnemyMoving) {
+        //enemy.playAnimation('idle');
 
     //set default velocity
     player.velocity.x = 0
@@ -138,16 +184,28 @@ window.addEventListener('keydown', (event) => {
         case 'd':
             keys.d.pressed = true
             player.lastKey = 'd'
+            if (player.position.y + player.height >= 396) {
+            }
             break
         case 'a':
             keys.a.pressed = true
             player.lastKey = 'a'
+            if (player.position.y + player.height >= 396) {
+            }
             break
         case 'w':
-            player.velocity.y = -20
+            if (player.position.y + player.height >= 396) {
+                player.velocity.y = -20
+                player.playAnimation('jump')
+                player.isJumping = true
+                setTimeout(() => {
+                    player.playAnimation('fall');
+                }, 500); // Assuming frameDuration is the duration of each frame in milliseconds
+            }
             break
         case ' ':
             player.attack()
+            player.playAnimation('attack')
             break
         
         //enemy keys

@@ -19,7 +19,7 @@ class Sprite {
 }
 
 class Fighter {
-    constructor({ position, velocity, colour = 'red', offset }) {
+    constructor({ position, velocity, colour = 'red', offset, animations }) {
         this.position = position
         this.velocity = velocity
         this.width = 50
@@ -35,30 +35,62 @@ class Fighter {
             height: 50
         }
         this.colour = colour
-        this.isAttacking 
+        this.isAttacking
+        this.isJumping
+        this.isAttacking
         this.health = 100
+        this.animations = animations
+        this.animationFrames = {}
+        this.currentFrameIndex = 0
+        this.frameDuration = 100
+        this.animationInterval
     }
 
-    //drawing sprite size/colour
+    loadAnimationFrames() {
+        console.log('loading animation frames...')
+        for (let key in this.animations) {
+            console.log(`loading frames for animation: ${key}`)
+            const frames = []
+            const folderPath = this.animations[key].folder
+            const numFrames = this.animations[key].numFrames
+
+            for (let i = 1; i <= numFrames; i++) {
+                const imagePath = `${folderPath}/${i}.png`
+                const image = new Image
+                image.src = imagePath
+                frames.push(image)
+            }
+            this.animationFrames[key] = frames
+        }
+        console.log('animation frames loaded:', this.animationFrames)
+    }
+
+    playAnimation(animationName) {
+        if (this.currentAnimation !== animationName) {
+            this.currentAnimation = animationName
+            this.currentFrameIndex = 0
+            clearInterval(this.animationInterval)
+            this.animationInterval = setInterval(() => {
+                this.currentFrameIndex = (this.currentFrameIndex + 1) % this.animationFrames[this.currentAnimation].length
+            }, this.frameDuration);
+        }
+    }
+
+    //drawing sprite and animation frame
     draw() {
         //player sprites
-        c.fillStyle = this.colour
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-
-        //attack box
-        if (this.isAttacking) {
-        c.fillStyle = 'green'
-        c.fillRect(
-            this.attackBox.position.x,
-            this.attackBox.position.y,
-            this.attackBox.width,
-            this.attackBox.height
-            )
-        }
+        const animationFrames = this.animationFrames[this.currentAnimation]
+        if (animationFrames) {
+            const frame = animationFrames[this.currentFrameIndex]
+            if (frame) {
+                c.drawImage(frame, this.position.x, this.position.y)
+            }
+        }   
     }
     
     //update loop for position and velocity, making gravity only work when the sprite is in the air
     update() {
+        const floorBoundary = canvas.height - 180
         this.draw()
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y
@@ -66,7 +98,7 @@ class Fighter {
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-        if (this.position.y + this.height + this.velocity.y >= canvas.height - 50) {
+        if (this.position.y + this.height + this.velocity.y >= canvas.height - 180) {
             this.velocity.y = 0;
         } else {
         this.velocity.y += gravity
