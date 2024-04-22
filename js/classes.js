@@ -25,6 +25,8 @@ class Fighter {
         this.width = 50
         this.height = 150
         this.lastKey
+        this.isDead
+        this.isHit
         this.attackBox = {
             position: {
                 x: this.position.x,
@@ -71,7 +73,11 @@ class Fighter {
             this.currentFrameIndex = 0
             clearInterval(this.animationInterval)
             this.animationInterval = setInterval(() => {
-                this.currentFrameIndex = (this.currentFrameIndex + 1) % this.animationFrames[this.currentAnimation].length
+                if (animationName === 'death' && this.currentFrameIndex === this.animationFrames[this.currentAnimation].length - 1) {
+                    clearInterval(this.animationInterval)
+                } else {
+                    this.currentFrameIndex = (this.currentFrameIndex + 1) % this.animationFrames[this.currentAnimation].length
+                }
             }, this.frameDuration);
         }
     }

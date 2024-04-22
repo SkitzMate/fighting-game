@@ -30,6 +30,16 @@ const playerAnimations = {
     death: { folder: './img/windHashashin/PNG/death', numFrames: 19 }
 }
 
+/*const enemyAnimations = {
+    idle: { folder: './img/windHashashin/PNG/idle', numFrames: 8 },
+    run: { folder: './img/windHashashin/PNG/run', numFrames: 8 },
+    jump: { folder: './img/windHashashin/PNG/jump', numFrames: 3 },
+    fall: { folder: './img/windHashashin/PNG/fall', numFrames: 3 },
+    attack: { folder: './img/windHashashin/PNG/attack', numFrames: 8 },
+    takeHit: { folder: './img/windHashashin/PNG/takeHit', numFrames: 6 },
+    death: { folder: './img/windHashashin/PNG/death', numFrames: 19 }
+}*/
+
 //creating player and set position and velocity
 const player = new Fighter({
     position: {
@@ -103,17 +113,17 @@ function animate() {
     const isPlayerMoving = player.velocity.x !== 0; // Check if player is moving
 
     // Play run animation if player is moving horizontally
-    if (isPlayerMoving && !player.isAttacking && !player.isJumping) {
+    if (!player.isDead && isPlayerMoving && !player.isHit && !player.isAttacking && !player.isJumping) {
         player.playAnimation('run');
 
-    } else if (!player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+    } else if (!player.isDead && !player.isHit && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
         player.playAnimation('idle');
     } // <-- Here's the missing closing brace for the else if block
 
     if (player.isJumping) {
-        if (!isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+        if (!player.isDead && !player.isHit && !isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
             player.playAnimation('idle');
-        } else if (isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
+        } else if (!player.isDead && !player.isHit && isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 396) {
             player.playAnimation('idle');
         }
     }
@@ -131,9 +141,9 @@ function animate() {
     enemy.velocity.x = 0
 
     //player Movement
-    if (keys.a.pressed && player.lastKey === 'a') {
+    if (!player.isDead && keys.a.pressed && player.lastKey === 'a') {
         player.velocity.x = -5
-    } else if (keys.d.pressed && player.lastKey === 'd') {
+    } else if (!player.isDead && keys.d.pressed && player.lastKey === 'd') {
         player.velocity.x = 5
     }
 
@@ -157,7 +167,7 @@ function animate() {
     }
 
     //detect collisions for enemy
-    if (rectangularCollision({
+    if (!player.isDead && rectangularCollision({
         rectangle1: enemy,
         rectangle2: player
     }) &&
@@ -166,6 +176,16 @@ function animate() {
         enemy.isAttacking = false
         player.health -= 20
         document.querySelector('#playerHealth').style.width = player.health + '%';
+        player.isHit = true
+        player.playAnimation('takeHit')
+        setTimeout(() => {
+            player.isHit = false;
+        }, 500);
+
+        if (player.health <=0) {
+            player.isDead = true
+            player.playAnimation('death')
+        }
     }
 
     //end game based on health
@@ -194,7 +214,7 @@ window.addEventListener('keydown', (event) => {
             }
             break
         case 'w':
-            if (player.position.y + player.height >= 396) {
+            if (!player.isDead && player.position.y + player.height >= 396) {
                 player.velocity.y = -20
                 player.playAnimation('jump')
                 player.isJumping = true
@@ -204,8 +224,10 @@ window.addEventListener('keydown', (event) => {
             }
             break
         case ' ':
-            player.attack()
-            player.playAnimation('attack')
+            if (!player.isHit && !player.isDead) {
+                player.attack()
+                player.playAnimation('attack')
+                }
             break
         
         //enemy keys
