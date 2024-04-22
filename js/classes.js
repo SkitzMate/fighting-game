@@ -48,10 +48,11 @@ class Fighter {
         this.animationInterval
     }
 
-    loadAnimationFrames() {
-        console.log('loading animation frames...')
+    loadAnimationFrames(isPlayer) {
+        const entityType = isPlayer ? `player` : `enemy`;
+        console.log(`loading ${entityType} animation frames...`)
         for (let key in this.animations) {
-            console.log(`loading frames for animation: ${key}`)
+            console.log(`loading frames for ${entityType} animation: ${key}`)
             const frames = []
             const folderPath = this.animations[key].folder
             const numFrames = this.animations[key].numFrames
@@ -64,7 +65,7 @@ class Fighter {
             }
             this.animationFrames[key] = frames
         }
-        console.log('animation frames loaded:', this.animationFrames)
+        console.log(`${entityType} animation frames loaded:`, this.animationFrames)
     }
 
     playAnimation(animationName) {
@@ -84,14 +85,14 @@ class Fighter {
 
     //drawing sprite and animation frame
     draw() {
-        //player sprites
-        const animationFrames = this.animationFrames[this.currentAnimation]
-        if (animationFrames) {
-            const frame = animationFrames[this.currentFrameIndex]
-            if (frame) {
-                c.drawImage(frame, this.position.x, this.position.y)
+        // For the player sprites, no need to flip
+            const animationFrames = this.animationFrames[this.currentAnimation];
+            if (animationFrames) {
+                const frame = animationFrames[this.currentFrameIndex];
+                if (frame) {
+                    c.drawImage(frame, this.position.x, this.position.y);
+                }
             }
-        }   
     }
     
     //update loop for position and velocity, making gravity only work when the sprite is in the air
@@ -116,6 +117,6 @@ class Fighter {
         this.isAttacking = true
         setTimeout(() => {
             this.isAttacking = false
-        }, 100)
+        }, 500)
     }
 }

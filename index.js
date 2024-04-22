@@ -30,15 +30,14 @@ const playerAnimations = {
     death: { folder: './img/windHashashin/PNG/death', numFrames: 19 }
 }
 
-/*const enemyAnimations = {
-    idle: { folder: './img/windHashashin/PNG/idle', numFrames: 8 },
-    run: { folder: './img/windHashashin/PNG/run', numFrames: 8 },
-    jump: { folder: './img/windHashashin/PNG/jump', numFrames: 3 },
-    fall: { folder: './img/windHashashin/PNG/fall', numFrames: 3 },
-    attack: { folder: './img/windHashashin/PNG/attack', numFrames: 8 },
-    takeHit: { folder: './img/windHashashin/PNG/takeHit', numFrames: 6 },
-    death: { folder: './img/windHashashin/PNG/death', numFrames: 19 }
-}*/
+const enemyAnimations = {
+    idle: { folder: './img/fireKnight/png/fire_knight/idle', numFrames: 8 },
+    run: { folder: './img/fireKnight/png/fire_knight/run', numFrames: 8 },
+    jump: { folder: './img/fireKnight/png/fire_knight/jump', numFrames: 18 },
+    attack: { folder: './img/fireKnight/png/fire_knight/attack', numFrames: 11 },
+    takeHit: { folder: './img/fireKnight/png/fire_knight/takeHit', numFrames: 6 },
+    death: { folder: './img/fireKnight/png/fire_knight/death', numFrames: 13 },
+}
 
 //creating player and set position and velocity
 const player = new Fighter({
@@ -54,18 +53,19 @@ const player = new Fighter({
         x: 0,
         y: 0
     },
-    animations: playerAnimations
+    animations: playerAnimations,
+    colour: 'red'
 })
 
-//load and play idle animation
-player.loadAnimationFrames()
+//load and play idle animation (player)
+player.loadAnimationFrames(true)
 player.playAnimation('idle')
 
 //creating enemy and set position and velocity
 const enemy = new Fighter({
     position: {
-        x: 400,
-        y: 100
+        x: 300,
+        y: 0
     },
     velocity: {
         x: 0,
@@ -75,10 +75,15 @@ const enemy = new Fighter({
         x: -50,
         y: 0
     },
+    animations : enemyAnimations,
     colour: 'blue'
 })
 
+enemy.loadAnimationFrames(false)
+enemy.playAnimation('idle')
+
 console.log(player);
+console.log(enemy);
 
 //setting up keys constant for movement
 const keys = {
@@ -128,13 +133,23 @@ function animate() {
         }
     }
 
-    // Other animation logic...
+    const isEnemyMoving = enemy.velocity.x !== 0; // Check if enemy is moving
 
-    //const isEnemyMoving = keys.ArrowLeft.pressed || keys.ArrowRight.pressed;
+    // Play run animation if enemy is moving horizontally
+    if (!enemy.isDead && isEnemyMoving && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping) {
+        enemy.playAnimation('run');
 
-    
-    //if (!isEnemyMoving) {
-        //enemy.playAnimation('idle');
+    } else if (!enemy.isDead && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 396) {
+        enemy.playAnimation('idle');
+    }
+
+    if (enemy.isJumping) {
+        if (!enemy.isDead && !enemy.isHit && !isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 396) {
+            enemy.playAnimation('idle');
+        } else if (!enemy.isDead && !enemy.isHit && isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 396) {
+            enemy.playAnimation('idle');
+        }
+    }
 
     //set default velocity
     player.velocity.x = 0
@@ -159,11 +174,19 @@ function animate() {
         rectangle1: player,
         rectangle2: enemy
     }) &&
-        player.isAttacking) 
-        {
-        player.isAttacking = false
-        enemy.health -= 20
+        player.isAttacking) {
+        enemy.health -= 1.5
         document.querySelector('#enemyHealth').style.width = enemy.health + '%';
+        enemy.isHit = true
+        enemy.playAnimation('takeHit')
+        setTimeout(() => {
+            enemy.isHit = false;
+        }, 500);
+
+        if (enemy.health <=0) {
+            enemy.isDead = true
+            enemy.playAnimation('death')
+        }
     }
 
     //detect collisions for enemy
@@ -173,8 +196,7 @@ function animate() {
     }) &&
         enemy.isAttacking) 
         {
-        enemy.isAttacking = false
-        player.health -= 20
+        player.health -= 1.5
         document.querySelector('#playerHealth').style.width = player.health + '%';
         player.isHit = true
         player.playAnimation('takeHit')
@@ -240,10 +262,20 @@ window.addEventListener('keydown', (event) => {
             enemy.lastKey = 'ArrowLeft'
             break
         case 'ArrowUp':
-            enemy.velocity.y = -20
+            if (!enemy.isDead && enemy.position.y + enemy.height >= 396) {
+                enemy.velocity.y = -20
+                enemy.playAnimation('jump')
+                enemy.isJumping = true
+                setTimeout(() => {
+                    enemy.isJumping = false
+                }, 500);
+            }
             break
         case 'ArrowDown':
-            enemy.attack()
+            if (!enemy.isHit && !enemy.isDead) {
+                enemy.attack()
+                enemy.playAnimation('attack')
+            }
             break
             }
 })
