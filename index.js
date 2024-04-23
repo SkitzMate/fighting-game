@@ -133,6 +133,10 @@ function animate() {
         }
     }
 
+    if (enemy.position.y + enemy.height >= 396) {
+        // Enemy has landed, so set isJumping to false
+        enemy.isJumping = false;
+
     const isEnemyMoving = enemy.velocity.x !== 0; // Check if enemy is moving
 
     // Play run animation if enemy is moving horizontally
@@ -150,6 +154,7 @@ function animate() {
             enemy.playAnimation('idle');
         }
     }
+}
 
     //set default velocity
     player.velocity.x = 0
@@ -266,9 +271,6 @@ window.addEventListener('keydown', (event) => {
                 enemy.velocity.y = -20
                 enemy.playAnimation('jump')
                 enemy.isJumping = true
-                setTimeout(() => {
-                    enemy.isJumping = false
-                }, 500);
             }
             break
         case 'ArrowDown':
@@ -277,8 +279,10 @@ window.addEventListener('keydown', (event) => {
                 enemy.playAnimation('attack')
             }
             break
-            }
-})
+    
+        }
+    })
+
 
 //listener for keyup events
 window.addEventListener('keyup', (event) => {
