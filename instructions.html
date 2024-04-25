@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+    File: instructions.html
+    Author: Dylan Farquhar
+    Matriculation number: 40489350
+    Last edit: 25/04/2024
+    Description: This is the HTML file for instructions page of my fighting game project.
+-->
+<html>
+<head>
+    <title>Instructions</title>
+    <style>
+        /*page styling*/
+        @font-face {
+            font-family: upheaval;
+            src: url('./upheaval.ttf');
+        }
+
+        body {
+            background-color: #0066ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90%;
+            background-color: #0066ff;
+            color: yellow;
+            padding: 10px;
+            font-family: 'upheaval';
+            font-size: 45px;
+            text-shadow: 2px 2px black;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .button-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10%;
+            text-align: right;
+            padding: 10px;
+            background-color: #0066ff;
+            font-family: 'upheaval';
+            font-size: 45px;
+            text-shadow: 2px 2px black;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+            border-left: 2px solid rgba(0, 0, 0, 0.5);
+        }
+        
+        .button-container a {
+            color: yellow;
+            text-decoration: none;
+        }
+
+        .instructions-container {
+            position: absolute;
+            top: 70px;
+            padding: 20px;
+            height: auto;
+            width: 95%;
+            text-align: center;
+        }
+
+        .instructions-title {
+            font-family: 'upheaval';
+            font-size: 45px;
+            color: yellow;
+            text-shadow: 3px 3px black;
+        }
+
+        .instructions-text {
+            font-family: 'upheaval';
+            font-size: 30px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+        }
+
+        .keys-container {
+            position: absolute;
+            align-items: center;
+            float: left;
+            top: 300px;
+            left: 250px
+        }
+
+        .keysImg {
+            float: left;
+            padding: 10px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <!--container for title and button that links to instructions page-->
+    <div class="top-container">
+        <div class="title-container"><a href="index.html" style="color: inherit; text-decoration: none;">Samurai Showdown</a>
+    </div>
+
+    <!--container for play button-->
+    <div class="button-container">
+        <a class="play-button" href="game.html">PLAY</a>
+    </div>
+    </div>
+
+    <!--container for instructions title and text-->
+    <div class="instructions-container">
+        <div class="instructions-title">instructions:</div>
+        <div class="instructions-text">the Wind Hashashin is controlled via the WASD keys, left/right movement is a/d respectively. w is used to jump, and s for attack.<br>
+            For the Fire Knight you use the arrow keys. left/right arrow for left and right movement, up arrow to jump, and down arrow to attack.<br>
+            A time limit of 30 seconds is set to add pressure, and the last one alive is declared winner over all!</div>
+    </div>
+
+    <!--container for the images of the keys-->
+    <div class="keys-container">
+        <div class="keysImg"><img src="./wasd.png" alt="WASD keys image" height="300px"></div>
+        <div class="keysImg"><img src="./arrows.png" alt="Arrow keys image" height="300px"></div>
+    </div>
+
+</body>
+</html>

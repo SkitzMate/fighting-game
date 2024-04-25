@@ -1,3 +1,19 @@
+/*
+    File: classes.js
+    Author: Dylan Farquhar
+    Matriculation number: 40489350
+    last Edit: 23/04/2024
+    Description: This file contains the classes for my javascript fighting game project.
+*/
+
+//game over initialisation
+class Game {
+    constructor() {
+        this.gameOver = false
+        }
+}
+
+//sprite creation
 class Sprite {
     constructor({ position, imageSrc }) {
         this.position = position
@@ -12,12 +28,13 @@ class Sprite {
         c.drawImage(this.image, this.position.x, this.position.y)
     }
     
-    //update loop for position and velocity, making gravity only work when the sprite is in the air
+    //update loop drawing the sprites and background
     update() {
         this.draw()
     }
 }
 
+//all rules for my fighter sprites, initialising flags for sprite actions
 class Fighter {
     constructor({ position, velocity, colour = 'red', offset, animations }) {
         this.position = position
@@ -33,13 +50,12 @@ class Fighter {
                 y: this.position.y
             },
             offset: offset,
-            width: 100,
-            height: 50
+            width: 120,
+            height: 50,
         }
         this.colour = colour
         this.isAttacking
         this.isJumping
-        this.isAttacking
         this.health = 100
         this.animations = animations
         this.animationFrames = {}
@@ -48,6 +64,7 @@ class Fighter {
         this.animationInterval
     }
 
+    //logs to check animation frames load correctly
     loadAnimationFrames(isPlayer) {
         const entityType = isPlayer ? `player` : `enemy`;
         console.log(`loading ${entityType} animation frames...`)
@@ -57,6 +74,7 @@ class Fighter {
             const folderPath = this.animations[key].folder
             const numFrames = this.animations[key].numFrames
 
+            //setting up counter to cycle through frames
             for (let i = 1; i <= numFrames; i++) {
                 const imagePath = `${folderPath}/${i}.png`
                 const image = new Image
@@ -68,6 +86,7 @@ class Fighter {
         console.log(`${entityType} animation frames loaded:`, this.animationFrames)
     }
 
+    //code for cycling through animation frames
     playAnimation(animationName) {
         if (this.currentAnimation !== animationName) {
             this.currentAnimation = animationName
@@ -85,7 +104,6 @@ class Fighter {
 
     //drawing sprite and animation frame
     draw() {
-        // For the player sprites, no need to flip
             const animationFrames = this.animationFrames[this.currentAnimation];
             if (animationFrames) {
                 const frame = animationFrames[this.currentFrameIndex];
@@ -94,10 +112,10 @@ class Fighter {
                 }
             }
     }
-    
+
     //update loop for position and velocity, making gravity only work when the sprite is in the air
     update() {
-        const floorBoundary = canvas.height - 180
+        const floorBoundary = canvas.height - 178
         this.draw()
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y

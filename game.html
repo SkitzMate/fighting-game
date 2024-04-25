@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+    File: game.html
+    Author: Dylan Farquhar
+    Matriculation number: 40489350
+    Last edit: 25/04/2024
+    Description: This is the HTML file for the game page of my fighting game project.
+-->
+<html>
+    <head>
+        <title>Samurai Showdown</title>
+        <style>
+            /*page styling*/
+            @font-face {
+                font-family: upheaval;
+                src: url('./upheaval.ttf');
+            }
+
+            body {
+                background-color: #0066ff;
+                margin: 0;
+                padding: 0;
+            }
+
+            .top-container {
+                position: relative;
+                max-width: 100%;
+                margin: auto;
+            }
+
+            .title-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 75%;
+                background-color: #0066ff;
+                color: yellow;
+                padding: 10px;
+                font-family: 'upheaval';
+                font-size: 45px;
+                text-shadow: 2px 2px black;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+            }
+
+            .button-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 25%;
+                text-align: right;
+                padding: 10px;
+                background-color: #0066ff;
+                font-family: 'upheaval';
+                font-size: 45px;
+                text-shadow: 2px 2px black;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+                border-left: 2px solid rgba(0, 0, 0, 0.5);
+            }
+        
+            .button-container a {
+                color: yellow;
+                text-decoration: none;
+            }
+
+            .timer-container {
+                position: absolute;
+                top: 5px;
+                left: calc(50% - 50px);
+                width: 100px;
+                height: 100px;
+                z-index: 5;
+                border: 3px solid white;
+            }
+
+            .timer {
+                font-family: 'upheaval';
+                font-size: 48px;
+                color: white;
+                background-color: black;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 10;
+                text-shadow: 
+                -2px -2px 0 red,
+                2px -2px 0 red,
+                -2px 2px 0 red,
+                2px 2px 0 red;
+            }
+
+            #displayText {
+                font-family: 'upheaval';
+                font-size: 75px;
+                position: absolute;
+                color: white;
+                display: none;
+                text-align: center;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #playAgain {
+                font-family: 'upheaval';
+                font-size: 75px;
+                text-shadow: 
+                -2px -2px 0 red,
+                2px -2px 0 red,
+                -2px 2px 0 red,
+                2px 2px 0 red;
+                position: absolute;
+                color: white;
+                display: none;
+                background-color: black;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+    <body>
+        <!--container for title and buttons at the top-->
+        <div class="top-container">
+            <div class="title-container"><a href="index.html" style="color: inherit; text-decoration: none;">Samurai Showdown</a>
+            </div>
+            <div class="button-container">
+                <a class="instruction-button" href="instructions.html">Instructions</a>
+            </div>
+        </div>
+        <!--main container div-->
+        <div style="position: relative; display: inline-block; top: 70px">
+
+            <!--healthbar container div-->
+            <div style="position: absolute; display: flex; width: 100%; align-items: center; padding: 20px">
+
+                <!--player health bar-->
+                <div style="position: relative; height: 30px; width: calc(50%); display: flex; justify-content: flex-end">
+                    <div style="background-color: red; height: 30px; width: 100%; border: 3px solid white"></div>
+                    <div id="playerHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; width: 100%; border: 3px solid white;"></div>
+                    </div>
+                    <div></div>
+
+                <!--timer-->
+                <div class="timer-container">
+                    <div id="timer" class="timer">10</div>
+                </div>
+
+                <!--enemy health bar-->
+                <div style="position: relative; height: 30px; width: calc(50%)">
+                <div style="background-color: red; height: 30px; border: 3px solid white"></div>
+                <div id="enemyHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; left: 0; border: 3px solid white;"></div>
+                </div>
+                <div></div>
+            </div>
+
+            <!--Player Animation Containers-->
+            <!--Idle animation-->
+            <div id="playerIdleAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Run animation-->
+            <div id="playerRunAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Jump animation-->
+            <div id="playerJumpAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Fall animation-->
+            <div id="playerFallAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Attack animation-->
+            <div id="playerAttackAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Take hit animation-->
+            <div id="playerTakeHitAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Death animation-->
+            <div id="playerDeathAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+
+             <!--Enemy Animation Containers-->
+            <!--Idle animation-->
+            <div id="enemyIdleAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Run animation-->
+            <div id="enemyRunAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Jump animation-->
+            <div id="enemyJumpAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Attack animation-->
+            <div id="enemyAttackAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Take hit animation-->
+            <div id="enemyTakeHitAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+            <!--Death animation-->
+            <div id="enemyDeathAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
+
+            <!--container for winner text and play again button-->
+            <div id="displayText" style="position: absolute; color: white; display: none; text-align: center; vertical-align: middle; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'upheaval'; font-size: 75px;"></div>
+            <button id="playAgain" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+                Play Again
+            </button>
+            <canvas></canvas>
+        </div>
+        <script>
+            //event listener to disable arrow keys for scrolling
+            document.addEventListener("keydown", function(event) {
+                if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+                    event.preventDefault();
+                }
+            });
+        </script>
+        <!--include utility funtions-->
+        <script src="js/utils.js"></script>
+        <!--include classes-->
+        <script src="js/classes.js"></script>
+        <!--include main game code-->
+        <script src="SamuraiShowdown.js"></script>
+    </body>
+</html>

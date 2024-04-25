@@ -1,76 +1,391 @@
 <!DOCTYPE html>
+<!--
+    File: index.html
+    Author: Dylan Farquhar
+    Matriculation number: 40489350
+    Last edit: 25/04/2024
+    Description: This is the HTML file for the homepage of my fighting game project.
+-->
 <html>
-    <head>
-        <title>Samurai Showdown</title>
-        <style>
-            * {
-                box-sizing: border-box;
-            }
-        </style>
-    </head>
-    <body>
-        <!--main container div-->
-        <div style="position: relative; display: inline-block;">
+<head>
+    <title>Homepage</title>
+    <style>
+        /*page styling*/
+        @font-face {
+            font-family: upheaval;
+            src: url('./upheaval.ttf');
+        }
 
-            <!--healthbar container div-->
-            <div style="position: absolute; display: flex; width: 100%; align-items: center; padding: 20px">
+        body {
+            background-color: #0066ff;
+            margin: 0;
+            padding: 0;
+        }
 
-                <!--player health bar-->
-                <div style="position: relative; height: 30px; width: 100%; display: flex; justify-content: flex-end">
-                    <div style="background-color: yellow; height: 30px; width: 100%"></div>
-                    <div id="playerHealth" style="position: absolute; background: blue; top: 0; right: 0; bottom: 0; width: 100%;"></div>
-                    </div>
-                    <div></div>
+        .top-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+        }
 
-                <!--timer-->
-                <div id="timer" style="background-color: red; height: 100px; width: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                    10
-                </div>
+        .title-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70%;
+            background-color: #0066ff;
+            color: yellow;
+            padding: 10px;
+            font-family: 'upheaval';
+            font-size: 45px;
+            text-shadow: 2px 2px black;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+        }
 
-                <!--enemy health bar-->
-                <div style="position: relative; height: 30px; width: 100%;">
-                <div style="background-color: yellow; height: 30px;"></div>
-                <div id="enemyHealth" style="position: absolute; background: blue; top: 0; right: 0; bottom: 0; left: 0;"></div>
-                </div>
-                <div></div>
+        .button-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            text-align: right;
+            padding: 10px;
+            background-color: #0066ff;
+            font-family: 'upheaval';
+            font-size: 45px;
+            text-shadow: 2px 2px black;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+            border-left: 2px solid rgba(0, 0, 0, 0.5);
+        }
+        
+        .button-container a {
+            color: yellow;
+            text-decoration: none;
+        }
+
+        .game-desc {
+            font-family: 'upheaval';
+            font-size: 30px;
+            color: yellow;
+            position: absolute;
+            top: 10%;
+            left: 5px;
+            width: 50%;
+            height: auto;
+            text-shadow: 2px 2px black;
+        }
+
+        .char-title {
+            position: absolute;
+            font-family: 'upheaval';
+            font-size: 45px;
+            top: 43%;
+            left: 5px;
+            width: 50%;
+            color: yellow;
+            text-shadow: 2px 2px black;
+        }
+
+        .charImg-container {
+            position: relative;
+            align-items: center;
+            float: left;
+            top: 380px;
+            left: 25px;
+        }
+
+        .charImg {
+            float: left;
+            padding: 10px;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .char-desc {
+            position: absolute;
+            top: 700px;
+            width: 50%;
+        }
+
+        .windHash-desc {
+            position: absolute;
+            width: 50%;
+            font-family: 'upheaval';
+            font-size: 29px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+            padding: 5px;
+
+        }
+
+        .fireKnight-desc {
+            position: absolute;
+            width: 50%;
+            font-family: 'upheaval';
+            font-size: 29px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+            padding: 5px;
+            left: 480px;
+        }
+
+        .galleryTitle-container {
+            position: absolute;
+            width: 50%;
+            left: calc(50% + 335px);
+            top: 75px;
+        }
+
+        .gallery-title {
+            width: 100%;
+            font-family: 'upheaval';
+            font-size: 45px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+        }
+
+        .slideshow-container {
+            position: absolute;
+            top: 130px;
+            right: 5px;
+            max-width: 800px;
+            height: 448px;
+            margin: auto;
+            background-color: grey;
+            border: 3px solid yellow;
+            padding: 5px;
+            overflow: hidden;
+        }
+
+        .gallery-img {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            top: -50%;
+        }
+
+        .description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-family: 'upheaval';
+            font-size: 40px;
+            color: yellow;
+            padding: 10px;
+            text-shadow: 2px 2px black;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .playButton-container {
+            position: absolute;
+            top: 610px;
+            left: 70%;
+            padding: 10px;
+            font-family: 'upheaval';
+            font-size: 75px;
+        }
+
+        .playButton-container a {
+            color: yellow;
+            text-decoration: none;
+            text-decoration: underline;
+            text-shadow: 4px 4px black;
+        }
+
+        .credits-container {
+            position: absolute;
+            top: 700px;
+            left: calc(50% + 100px);
+            height: 50%;
+            width: 50%;
+        }
+
+        .credits-title {
+            text-align: left;
+            font-family: 'upheaval';
+            font-size: 50px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+        }
+
+        .credits {
+            text-align: left;
+            font-family: 'upheaval';
+            font-size: 29px;
+            color: yellow;
+            text-shadow: 2px 2px black;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!--top container for title-->
+    <div class="top-container">
+        <div class="title-container">
+            Samurai Showdown
+        </div>
+      
+    <!--container for button which links to instructions page-->
+    <div class="button-container">
+        <a class="instruction-button" href="instructions.html">Instructions</a>
+    </div>
+    </div>
+
+    <!--container for game description-->
+    <div class="game-desc">"Samurai Showdown" is a captivating 2D retro fighting game 
+        set in an alternate world of feudal Japan, where two rival factions, the Fire Knights and 
+        the Wind Hashashin, clash for supremacy. Players step into the shoes of legendary warriors 
+        from each faction, engaging in intense battles which will affect the landscape of Japan for years to come.
+         Who will reign victorious is anyones guess!</div>
+
+    <!--container for character title and images-->
+    <div class="charDesc-container">
+        <div class="char-title">Characters:</div>
+        <div class="charImg-container">
+            <div class="charImg"><img src="./windHashashin.png" alt="Wind Hashashin character image" height="300px"></div>
+            <div class="charImg"><img src="./fireKnight.png" alt="Fire Knight character image" height="300px"></div>
+    </div>
+
+    <!--container for character descriptions-->
+    <div class="char-desc">
+        <div class="windHash-desc">The Wind Hashashin hails from the misty valleys of Shirakawa-go, Japan. Trained in stealth 
+            by the whispering winds, he moves with grace and precision, striking swiftly like a gust of wind. Clad in garments which 
+            blend seamlessly with the foggy terrain, he wields twin blades with deadly accuracy, his attacks as unpredictable as the 
+            shifting winds, making him a formidable opponent.</div>
+        <div class="fireKnight-desc">The Fire Knight emerges from the volcanic heart of Mount Fuji, Japan's iconic peak. Born amidst flames, 
+            he harnesses the fiery fury of the volcano in his combat style. Trained in the crucible of molten lava, he wields a blazing sword 
+            with unparalleled mastery. Clad in armor forged from the volcanic ores, he moves with the unstoppable force of an erupting volcano, 
+            striking fear into the hearts of his enemies. His attacks sear through opposition with relentless intensity.</div>
+        </div>
+    </div>
+
+    <!--container for gallery title-->
+    <div class="galleryTitle-container">
+        <div class="gallery-title">Gallery</div>
+    </div>
+
+    <!--container for the gallery and including images-->
+    <div class="slideshow-container">
+        <div class="gallery-slide">
+            <div class="slide">
+                <img class="gallery-img" src="./gallery/gameImg.png" alt="Main game page">
+                <div class="description">Main game page</div>
             </div>
-
-            <!--Player Animation Containers-->
-            <!--Idle animation-->
-            <div id="playerIdleAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Run animation-->
-            <div id="playerRunAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Jump animation-->
-            <div id="playerJumpAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Fall animation-->
-            <div id="playerFallAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Attack animation-->
-            <div id="playerAttackAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Take hit animation-->
-            <div id="playerTakeHitAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Death animation-->
-            <div id="playerDeathAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-
-             <!--Enemy Animation Containers-->
-            <!--Idle animation-->
-            <div id="enemyIdleAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Run animation-->
-            <div id="enemyRunAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Jump animation-->
-            <div id="enemyJumpAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Attack animation-->
-            <div id="enemyAttackAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Take hit animation-->
-            <div id="enemyTakeHitAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-            <!--Death animation-->
-            <div id="enemyDeathAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
-
-            <div id="displayText" style="position: absolute; color: white; display: none; align-items: center; justify-content: center; top: 0; right: 0; bottom: 0; left: 0;"></div>
-            <canvas></canvas>
+            <div class="slide">
+                <img class="gallery-img" src="./gallery/gameOver.png" alt="Game over page">
+                <div class="description">Game over page</div>
+            </div>
+            <div class="slide">
+                <img class="gallery-img" src="./gallery/gameWin.png" alt="Game win page">
+                <div class="description">Game win page</div>
+            </div>
+            <div class="slide">
+                <img class="gallery-img" src="./gallery/windHashIdle.png" alt="Snippet from the Idle animation for the 'Wind Hashashin' character">
+                <div class="description">Snippet from the Idle animation for the 'Wind Hashashin' character</div>
+            </div>
+            <div>
+                <div class="slide"></div>
+                <img class="gallery-img" src="./gallery/windHashAtk.png" alt="Snippet from the Attack animation for the 'Wind Hashashin' character">
+                <div class="description">Snippet from the Attack animation for the 'Wind Hashashin' character</div>
+            </div>
+            <div>
+                <div class="slide"></div>
+                <img class="gallery-img" src="./gallery/windHashHit.png" alt="Snippet from the Hit animation for the 'Wind Hashashin' character">
+                <div class="description">Snippet from the Hit animation for the 'Wind Hashashin' character</div>
+            </div>
+            <div>
+                <div class="slide"></div>
+                <img class="gallery-img" src="./gallery/fireKnightIdle.png" alt="Snippet from the Idle animation for the 'Fire Knight' character">
+                <div class="description">Snippet from the Idle animation for the 'Fire Knight' character</div>
+            </div>
+            <div>
+                <div class="slide"></div>
+                <img class="gallery-img" src="./gallery/fireKnightAtk.png" alt="Snippet from the Attack animation for the 'Fire Knight' character">
+                <div class="description">Snippet from the Attack animation for the 'Fire Knight' character</div>
+            </div>
+            <div>
+                <div class="slide"></div>
+                <img class="gallery-img" src="./gallery/fireKnightHit.png" alt="Snippet from the Hit animation for the 'Fire Knight' character">
+                <div class="description">Snippet from the Hit animation for the 'Fire Knight' character</div>
+            </div>
         </div>
 
-        <script src="js/utils.js"></script>
-        <script src="js/classes.js"></script>
-        <script src="index.js"></script>
-    </body>
+        <!--logic for next picture buttons-->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <!--container to play button which links to game page-->
+    <div class="playButton-container">
+        <a class="play-button" href="game.html">Play</a>
+    </div>
+
+    <!--container for credits-->
+    <div class="credits-container">
+        <div class="credits-title">credits:</div>
+        <div class="credits">thanks to:<br>Chierit for the player sprites:<br><a href="https://chierit.itch.io/">Chierit's itch.io page</a>
+            <br><br>Rusted Music Studio for the background image:<br><a href="https://rustedstudio.itch.io/">Rusted Music Studio's itch.io page</a><br><br>
+            Freepic for the WASD image<br>Deemakdaksina for the Arrow keys image<br>Both from<br><a href="https://www.flaticon.com/">flaticon</a></div>
+    </div>
+
+    <script>
+        //script for cycling through gallery images
+        var slideIndex = 1;
+        showSlides(slideIndex);
+    
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+    
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("gallery-img");
+            var descriptions = document.getElementsByClassName("description");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            
+            for (i = 0; i < descriptions.length; i++) {
+                descriptions[i].style.display = "none";
+            }
+            
+            slides[slideIndex-1].style.display = "block";
+            descriptions[slideIndex-1].style.display = "block";
+        }
+    </script>
+</body>
 </html>
