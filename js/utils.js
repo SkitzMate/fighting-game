@@ -47,7 +47,7 @@ function determineWinner({player, enemy, timerId}) {
       
       //event listener for play again button
       document.getElementById('playAgain').addEventListener('click', () => {
-        window.location.replace('game.hmtl');
+        window.location.reload;
       })
 }
 
