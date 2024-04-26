@@ -88,7 +88,7 @@ const enemy = new Fighter({
     colour: 'blue'
 })
 
-//load and play idle animation (player)
+//load and play idle animation (enemy)
 enemy.loadAnimationFrames(false)
 enemy.playAnimation('idle')
 
@@ -112,122 +112,134 @@ const keys = {
     }
 };
 
+//variable to control frame rate
+const frameRate = 60;
+
+//variable to keep track of time
+let lastTime = 0;
+
 //create animation loop
-function animate() {
-    window.requestAnimationFrame(animate);
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, canvas.width, canvas.height);
-    background.update();
-    player.update();
-    enemy.update();
+function animate(currentTime) {
+    const deltaTime = currentTime - lastTime;
+    if (deltaTime > 1000 / frameRate) {
+        lastTime = currentTime - (deltaTime % (1000 / frameRate));
+        c.fillStyle = 'black';
+        c.fillRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        player.update();
+        enemy.update();
 
-    if (player.position.y + player.height >= 394) {
-        player.isJumping = false;
-    }
+        if (player.position.y + player.height >= 394) {
+            player.isJumping = false;
+        }
 
-    const isPlayerMoving = player.velocity.x !== 0;
+        const isPlayerMoving = player.velocity.x !== 0;
 
-    //animation logic
-    if (!player.isDead && isPlayerMoving && !player.isHit && !player.isAttacking && !player.isJumping) {
-        player.playAnimation('run');
+        //animation logic
+        if (!player.isDead && isPlayerMoving && !player.isHit && !player.isAttacking && !player.isJumping) {
+            player.playAnimation('run');
 
-    } else if (!player.isDead && !player.isHit && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
-        player.playAnimation('idle');
-    }
-
-    if (player.isJumping) {
-        if (!player.isDead && !player.isHit && !isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
-            player.playAnimation('idle');
-        } else if (!player.isDead && !player.isHit && isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
+        } else if (!player.isDead && !player.isHit && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
             player.playAnimation('idle');
         }
-    }
 
-    if (enemy.position.y + enemy.height >= 394) {
-        enemy.isJumping = false;
+        if (player.isJumping) {
+            if (!player.isDead && !player.isHit && !isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
+                player.playAnimation('idle');
+            } else if (!player.isDead && !player.isHit && isPlayerMoving && !player.isAttacking && !player.isJumping && player.position.y + player.height >= 394) {
+                player.playAnimation('idle');
+            }
+        }
 
-    const isEnemyMoving = enemy.velocity.x !== 0;
+        if (enemy.position.y + enemy.height >= 394) {
+            enemy.isJumping = false;
+        }
 
-    if (!enemy.isDead && isEnemyMoving && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping) {
-        enemy.playAnimation('run');
+        const isEnemyMoving = enemy.velocity.x !== 0;
 
-    } else if (!enemy.isDead && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
-        enemy.playAnimation('idle');
-    }
+        if (!enemy.isDead && isEnemyMoving && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping) {
+            enemy.playAnimation('run');
 
-    if (enemy.isJumping) {
-        if (!enemy.isDead && !enemy.isHit && !isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
-            enemy.playAnimation('idle');
-        } else if (!enemy.isDead && !enemy.isHit && isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
+        } else if (!enemy.isDead && !enemy.isHit && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
             enemy.playAnimation('idle');
         }
+
+        if (enemy.isJumping) {
+            if (!enemy.isDead && !enemy.isHit && !isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
+                enemy.playAnimation('idle');
+            } else if (!enemy.isDead && !enemy.isHit && isEnemyMoving && !enemy.isAttacking && !enemy.isJumping && enemy.position.y + enemy.height >= 394) {
+                enemy.playAnimation('idle');
+            }
+        }
     }
+
+        //set default velocity
+        player.velocity.x = 0
+        enemy.velocity.x = 0
+
+        //player Movement
+        if (!player.isDead && keys.a.pressed && player.lastKey === 'a') {
+            player.velocity.x = -5
+        } else if (!player.isDead && keys.d.pressed && player.lastKey === 'd') {
+            player.velocity.x = 5
+        }
+
+        //enemy Movement
+        if (!enemy.isDead && keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+            enemy.velocity.x = -5
+        } else if (!enemy.isDead && keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+            enemy.velocity.x = 5
+        }
+
+        //detect collisons for player
+        if (!enemy.isDead && rectangularCollision({
+            rectangle1: player,
+            rectangle2: enemy
+        }) &&
+            player.isAttacking && !enemy.isHit) {
+            enemy.health -= 20
+            document.querySelector('#enemyHealth').style.width = enemy.health + '%';
+            enemy.isHit = true
+            enemy.playAnimation('takeHit')
+            setTimeout(() => {
+                enemy.isHit = false
+            }, 500);
+
+            if (enemy.health <=0) {
+                enemy.isDead = true
+                enemy.playAnimation('death')
+            }
+        }
+
+        //detect collisions for enemy
+        if (!player.isDead && rectangularCollision({
+            rectangle1: enemy,
+            rectangle2: player
+        }) &&
+            enemy.isAttacking && !player.isHit) 
+            {
+            player.health -= 20
+            document.querySelector('#playerHealth').style.width = player.health + '%';
+            player.isHit = true
+            player.playAnimation('takeHit')
+            setTimeout(() => {
+                player.isHit = false;
+            }, 500);
+
+            if (player.health <=0) {
+                player.isDead = true
+                player.playAnimation('death')
+            }
+        }
+
+        //end game based on health
+        if (enemy.health <= 0 || player.health <= 0) {
+            determineWinner({player, enemy, timerId})
+        }
+        window.requestAnimationFrame(animate)
 }
 
-    //set default velocity
-    player.velocity.x = 0
-    enemy.velocity.x = 0
-
-    //player Movement
-    if (!player.isDead && keys.a.pressed && player.lastKey === 'a') {
-        player.velocity.x = -5
-    } else if (!player.isDead && keys.d.pressed && player.lastKey === 'd') {
-        player.velocity.x = 5
-    }
-
-    //enemy Movement
-    if (!enemy.isDead && keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
-        enemy.velocity.x = -5
-    } else if (!enemy.isDead && keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
-        enemy.velocity.x = 5
-    }
-
-    //detect collisons for player
-    if (!enemy.isDead && rectangularCollision({
-        rectangle1: player,
-        rectangle2: enemy
-    }) &&
-        player.isAttacking && !enemy.isHit) {
-        enemy.health -= 20
-        document.querySelector('#enemyHealth').style.width = enemy.health + '%';
-        enemy.isHit = true
-        enemy.playAnimation('takeHit')
-        setTimeout(() => {
-            enemy.isHit = false
-        }, 500);
-
-        if (enemy.health <=0) {
-            enemy.isDead = true
-            enemy.playAnimation('death')
-        }
-    }
-
-    //detect collisions for enemy
-    if (!player.isDead && rectangularCollision({
-        rectangle1: enemy,
-        rectangle2: player
-    }) &&
-        enemy.isAttacking && !player.isHit) 
-        {
-        player.health -= 20
-        document.querySelector('#playerHealth').style.width = player.health + '%';
-        player.isHit = true
-        player.playAnimation('takeHit')
-        setTimeout(() => {
-            player.isHit = false;
-        }, 500);
-
-        if (player.health <=0) {
-            player.isDead = true
-            player.playAnimation('death')
-        }
-    }
-
-    //end game based on health
-    if (enemy.health <= 0 || player.health <= 0) {
-        determineWinner({player, enemy, timerId})
-    }
-}
+window.requestAnimationFrame(animate)
 
 decreaseTimer()
 
