@@ -20,41 +20,26 @@
             background-color: #0066ff;
             margin: 0;
             padding: 0;
+            font-size: 16px; /* Set a base font size */
         }
 
         .top-container {
-            position: relative;
-            max-width: 100%;
-            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
 
-        .title-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 70%;
+        .title-container,
+        .button-container {
+            flex: 1;
+            text-align: center;
             background-color: #0066ff;
             color: yellow;
-            padding: 10px;
             font-family: 'upheaval';
-            font-size: 45px;
-            text-shadow: 2px 2px black;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-        }
-
-        .button-container {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30%;
-            text-align: right;
-            padding: 10px;
-            background-color: #0066ff;
-            font-family: 'upheaval';
-            font-size: 45px;
-            text-shadow: 2px 2px black;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-            border-left: 2px solid rgba(0, 0, 0, 0.5);
+            font-size: 3.5vw; /* Use viewport width for font size */
+            text-shadow: 0.2vw 0.2vw black;
+            border-bottom: 0.2vw solid rgba(0, 0, 0, 0.5);
         }
         
         .button-container a {
@@ -64,104 +49,81 @@
 
         .game-desc {
             font-family: 'upheaval';
-            font-size: 30px;
+            font-size: 2.5vw;
             color: yellow;
-            position: absolute;
-            top: 10%;
-            left: 5px;
-            width: 50%;
-            height: auto;
-            text-shadow: 2px 2px black;
+            margin-top: 5vh; /* Use viewport height for margin */
+            margin-left: 5vw; /* Use viewport width for margin */
+            width: 45vw; /* Use viewport width for width */
+            text-shadow: 0.2vw 0.2vw black;
+        }
+
+        .charDesc-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: 5vw;
+            margin-top: 3vh;
+            width: 90vw;
         }
 
         .char-title {
-            position: absolute;
             font-family: 'upheaval';
-            font-size: 45px;
-            top: 43%;
-            left: 5px;
-            width: 50%;
+            font-size: 3.5vw;
             color: yellow;
-            text-shadow: 2px 2px black;
+            text-shadow: 0.2vw 0.2vw black;
         }
 
         .charImg-container {
-            position: relative;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            float: left;
-            top: 380px;
-            left: 25px;
+            width: 45vw;
         }
 
         .charImg {
-            float: left;
-            padding: 10px;
-            margin-left: 50px;
-            margin-right: 50px;
+            width: 40%;
         }
 
         .char-desc {
-            position: absolute;
-            top: 700px;
-            width: 50%;
-        }
-
-        .windHash-desc {
-            position: absolute;
-            width: 50%;
             font-family: 'upheaval';
-            font-size: 29px;
+            font-size: 2.5vw;
             color: yellow;
-            text-shadow: 2px 2px black;
-            padding: 5px;
-
-        }
-
-        .fireKnight-desc {
-            position: absolute;
-            width: 50%;
-            font-family: 'upheaval';
-            font-size: 29px;
-            color: yellow;
-            text-shadow: 2px 2px black;
-            padding: 5px;
-            left: 480px;
+            margin-top: 3vh;
+            width: 45vw;
+            text-shadow: 0.2vw 0.2vw black;
         }
 
         .galleryTitle-container {
-            position: absolute;
-            width: 50%;
-            left: calc(50% + 335px);
-            top: 75px;
+            margin-top: 5vh;
+            margin-left: 50vw;
+            transform: translateX(-50%);
+            width: 45vw;
         }
 
         .gallery-title {
-            width: 100%;
             font-family: 'upheaval';
-            font-size: 45px;
+            font-size: 3.5vw;
             color: yellow;
-            text-shadow: 2px 2px black;
+            text-shadow: 0.2vw 0.2vw black;
         }
 
         .slideshow-container {
-            position: absolute;
-            top: 130px;
-            right: 5px;
+            margin-top: 3vh;
+            margin-right: 5vw;
+            width: 45vw;
             max-width: 800px;
             height: 448px;
-            margin: auto;
             background-color: grey;
-            border: 3px solid yellow;
-            padding: 5px;
+            border: 0.2vw solid yellow;
+            padding: 0.5vw;
             overflow: hidden;
+            position: relative;
         }
 
         .gallery-img {
-            display: none;
-            position: relative;
             width: 100%;
             height: 100%;
-            top: -50%;
+            object-fit: cover;
         }
 
         .description {
@@ -170,34 +132,35 @@
             left: 0;
             width: 100%;
             font-family: 'upheaval';
-            font-size: 40px;
+            font-size: 2.5vw;
             color: yellow;
-            padding: 10px;
-            text-shadow: 2px 2px black;
+            padding: 0.5vw;
+            text-shadow: 0.2vw 0.2vw black;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .prev, .next {
             cursor: pointer;
             position: absolute;
             top: 50%;
-            width: auto;
-            padding: 16px;
-            margin-top: -22px;
+            transform: translateY(-50%);
             color: white;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 1.8vw;
             transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
             user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 1vw;
+            border: none;
+            outline: none;
         }
 
         .prev {
-            left: 0;
+            left: 0.5vw;
         }
 
         .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
+            right: 0.5vw;
         }
 
         .prev:hover, .next:hover {
@@ -205,43 +168,39 @@
         }
 
         .playButton-container {
-            position: absolute;
-            top: 610px;
-            left: 70%;
-            padding: 10px;
+            margin-top: 5vh;
+            margin-left: 50vw;
+            transform: translateX(-50%);
             font-family: 'upheaval';
-            font-size: 75px;
+            font-size: 5vw;
         }
 
         .playButton-container a {
             color: yellow;
             text-decoration: none;
             text-decoration: underline;
-            text-shadow: 4px 4px black;
+            text-shadow: 0.4vw 0.4vw black;
         }
 
         .credits-container {
-            position: absolute;
-            top: 700px;
-            left: calc(50% + 100px);
-            height: 50%;
-            width: 50%;
+            margin-top: 3vh;
+            margin-left: 50vw;
+            transform: translateX(-50%);
+            width: 45vw;
         }
 
         .credits-title {
-            text-align: left;
             font-family: 'upheaval';
-            font-size: 50px;
+            font-size: 3.5vw;
             color: yellow;
-            text-shadow: 2px 2px black;
+            text-shadow: 0.2vw 0.2vw black;
         }
 
         .credits {
-            text-align: left;
             font-family: 'upheaval';
-            font-size: 29px;
+            font-size: 2.5vw;
             color: yellow;
-            text-shadow: 2px 2px black;
+            text-shadow: 0.2vw 0.2vw black;
             text-decoration: none;
         }
 
