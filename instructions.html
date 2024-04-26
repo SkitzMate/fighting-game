@@ -3,7 +3,7 @@
     File: instructions.html
     Author: Dylan Farquhar
     Matriculation number: 40489350
-    Last edit: 25/04/2024
+    Last edit: 26/04/2024
     Description: This is the HTML file for instructions page of my fighting game project.
 -->
 <html>
@@ -86,18 +86,20 @@
         }
 
         .keys-container {
-            position: absolute;
+            display: flex;
+            justify-content: space-around;
             align-items: center;
-            float: left;
-            top: 47vh;
-            left: 39vh
+            position: relative;
+            top: 70vh;
+            transform: translateY(-50%);
+            width: 100%;
+            margin: auto;
         }
 
         .keysImg {
+            display: block;
             float: left;
-            padding: 1.8vh;
-            margin-left: 9vh;
-            margin-right: 9vh;
+            padding: 20vh
         }
 
     </style>
@@ -124,8 +126,8 @@
 
     <!--container for the images of the keys-->
     <div class="keys-container">
-        <div class="keysImg"><img src="./wasd.png" alt="WASD keys image" height="300px"></div>
-        <div class="keysImg"><img src="./arrows.png" alt="Arrow keys image" height="300px"></div>
+        <div class="keysImg"><img src="./wasd.png" alt="WASD keys image" height="300vh"></div>
+        <div class="keysImg"><img src="./arrows.png" alt="Arrow keys image" height="300vh"></div>
     </div>
 
 </body>
