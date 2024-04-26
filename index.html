@@ -3,13 +3,19 @@
     File: index.html
     Author: Dylan Farquhar
     Matriculation number: 40489350
-    Last edit: 25/04/2024
+    Last edit: 26/04/2024
     Description: This is the HTML file for the homepage of my fighting game project.
 -->
 <html>
 <head>
     <title>Homepage</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /*page styling*/
         @font-face {
             font-family: upheaval;
@@ -20,26 +26,40 @@
             background-color: #0066ff;
             margin: 0;
             padding: 0;
-            font-size: 16px; /* Set a base font size */
         }
 
         .top-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
+            position: relative;
+            height: 5vh;
         }
 
-        .title-container,
-        .button-container {
-            flex: 1;
-            text-align: center;
+        .title-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70%;
             background-color: #0066ff;
             color: yellow;
+            padding: 1.5vh;
             font-family: 'upheaval';
-            font-size: 3.5vw; /* Use viewport width for font size */
-            text-shadow: 0.2vw 0.2vw black;
-            border-bottom: 0.2vw solid rgba(0, 0, 0, 0.5);
+            font-size: 7.5vh;
+            text-shadow: 0.4vh 0.4vh black;
+            border-bottom: 0.4vh solid rgba(0, 0, 0, 0.5);
+        }
+
+        .button-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            text-align: right;
+            padding: 1.5vh;
+            background-color: #0066ff;
+            font-family: 'upheaval';
+            font-size: 7.5vh;
+            text-shadow: 0.4vh 0.4vh black;
+            border-bottom: 0.4vh solid rgba(0, 0, 0, 0.5);
+            border-left: 0.4vh solid rgba(0, 0, 0, 0.5);
         }
         
         .button-container a {
@@ -48,33 +68,39 @@
         }
 
         .game-desc {
+            position: absolute;
             font-family: 'upheaval';
             font-size: 2.5vw;
             color: yellow;
-            margin-top: 5vh; /* Use viewport height for margin */
-            margin-left: 5vw; /* Use viewport width for margin */
-            width: 45vw; /* Use viewport width for width */
-            text-shadow: 0.2vw 0.2vw black;
-        }
-
-        .charDesc-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-left: 5vw;
-            margin-top: 3vh;
-            width: 90vw;
+            top: 12vh;
+            left: 1vh;
+            width: 45vw;
+            text-shadow: 0.2vh 0.2vw black;
         }
 
         .char-title {
+            position: absolute;
+            top: 85vh;
+            left: 1vh;
             font-family: 'upheaval';
             font-size: 3.5vw;
             color: yellow;
             text-shadow: 0.2vw 0.2vw black;
         }
 
-        .charImg-container {
+        .charDesc-container {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-left: 1vh;
+            margin-top: 116vh;
+            width: 50%;
+        }
+
+        .charImg-container {
+            position: absolute;
+            display: flex;
+            top: 95vh;
             justify-content: space-between;
             align-items: center;
             width: 45vw;
@@ -84,18 +110,21 @@
             width: 40%;
         }
 
-        .char-desc {
+        .char-desc > div {
             font-family: 'upheaval';
-            font-size: 2.5vw;
+            font-size: 1.8vw;
             color: yellow;
-            margin-top: 3vh;
-            width: 45vw;
+            width: 45%;
+            margin-right: 2.5vh;
             text-shadow: 0.2vw 0.2vw black;
+            display: inline-block;
+            vertical-align: top;
         }
 
         .galleryTitle-container {
-            margin-top: 5vh;
-            margin-left: 50vw;
+            position: absolute;
+            top: 12vh;
+            left: 87.5%;
             transform: translateX(-50%);
             width: 45vw;
         }
@@ -108,16 +137,16 @@
         }
 
         .slideshow-container {
-            margin-top: 3vh;
-            margin-right: 5vw;
+            top: 20vh;
+            left: 50%;
             width: 45vw;
-            max-width: 800px;
-            height: 448px;
+            max-width: 120vh;
+            height: 54vh;
             background-color: grey;
             border: 0.2vw solid yellow;
             padding: 0.5vw;
             overflow: hidden;
-            position: relative;
+            position: absolute;
         }
 
         .gallery-img {
@@ -168,8 +197,9 @@
         }
 
         .playButton-container {
-            margin-top: 5vh;
-            margin-left: 50vw;
+            position: absolute;
+            top: 75vh;
+            left: 71vw;
             transform: translateX(-50%);
             font-family: 'upheaval';
             font-size: 5vw;
@@ -183,8 +213,9 @@
         }
 
         .credits-container {
-            margin-top: 3vh;
-            margin-left: 50vw;
+            position: absolute;
+            top: 90vh;
+            left: 72vw;
             transform: translateX(-50%);
             width: 45vw;
         }
@@ -231,8 +262,8 @@
     <div class="charDesc-container">
         <div class="char-title">Characters:</div>
         <div class="charImg-container">
-            <div class="charImg"><img src="./windHashashin.png" alt="Wind Hashashin character image" height="300px"></div>
-            <div class="charImg"><img src="./fireKnight.png" alt="Fire Knight character image" height="300px"></div>
+            <div class="charImg"><img src="./windHashashin.png" alt="Wind Hashashin character image" height="200vh"></div>
+            <div class="charImg"><img src="./fireKnight.png" alt="Fire Knight character image" height="200vh"></div>
     </div>
 
     <!--container for character descriptions-->
@@ -304,7 +335,7 @@
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
-    <!--container to play button which links to game page-->
+    <!--container for play button which links to game page-->
     <div class="playButton-container">
         <a class="play-button" href="game.html">Play</a>
     </div>
