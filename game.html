@@ -3,7 +3,7 @@
     File: game.html
     Author: Dylan Farquhar
     Matriculation number: 40489350
-    Last edit: 25/04/2024
+    Last edit: 26/04/2024
     Description: This is the HTML file for the game page of my fighting game project.
 -->
 <html>
@@ -32,29 +32,29 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 75%;
+                width: 70%;
                 background-color: #0066ff;
                 color: yellow;
-                padding: 10px;
+                padding: 1.5vh;
                 font-family: 'upheaval';
-                font-size: 45px;
-                text-shadow: 2px 2px black;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+                font-size: 7.5vh;
+                text-shadow: 0.4vh 0.4vh black;
+                border-bottom: 0.4vh solid rgba(0, 0, 0, 0.5);
             }
-
+    
             .button-container {
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 25%;
+                width: 30%;
                 text-align: right;
-                padding: 10px;
+                padding: 1.5vh;
                 background-color: #0066ff;
                 font-family: 'upheaval';
-                font-size: 45px;
-                text-shadow: 2px 2px black;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-                border-left: 2px solid rgba(0, 0, 0, 0.5);
+                font-size: 7.5vh;
+                text-shadow: 0.4vh 0.4vh black;
+                border-bottom: 0.4vh solid rgba(0, 0, 0, 0.5);
+                border-left: 0.4vh solid rgba(0, 0, 0, 0.5);
             }
         
             .button-container a {
@@ -64,17 +64,17 @@
 
             .timer-container {
                 position: absolute;
-                top: 5px;
-                left: calc(50% - 50px);
-                width: 100px;
-                height: 100px;
+                top: 1.5vh;
+                left: calc(50% - 7.5vh);
+                width: 15vh;
+                height: 15vh;
                 z-index: 5;
-                border: 3px solid white;
+                border: 0.5vh solid white;
             }
 
             .timer {
                 font-family: 'upheaval';
-                font-size: 48px;
+                font-size: 9vh;
                 color: white;
                 background-color: black;
                 width: 100%;
@@ -85,15 +85,15 @@
                 position: relative;
                 z-index: 10;
                 text-shadow: 
-                -2px -2px 0 red,
-                2px -2px 0 red,
-                -2px 2px 0 red,
-                2px 2px 0 red;
+                -0.4vh -0.4vh 0 red,
+                0.4vh -0.4vh 0 red,
+                -0.4vh 0.4vh 0 red,
+                0.4vh 0.4vh 0 red;
             }
 
             #displayText {
                 font-family: 'upheaval';
-                font-size: 75px;
+                font-size: 15vh;
                 position: absolute;
                 color: white;
                 display: none;
@@ -105,12 +105,12 @@
 
             #playAgain {
                 font-family: 'upheaval';
-                font-size: 75px;
+                font-size: 13vh;
                 text-shadow: 
-                -2px -2px 0 red,
-                2px -2px 0 red,
-                -2px 2px 0 red,
-                2px 2px 0 red;
+                -0.4vh -0.4vh 0 red,
+                0.4vh -0.4vh 0 red,
+                -0.4vh 0.4vh 0 red,
+                0.4vh 0.4vh 0 red;
                 position: absolute;
                 color: white;
                 display: none;
@@ -132,15 +132,15 @@
             </div>
         </div>
         <!--main container div-->
-        <div style="position: relative; display: inline-block; top: 70px">
+        <div style="position: relative; display: inline-block; top: 11vh; left: calc(50% - 80vh)">
 
             <!--healthbar container div-->
             <div style="position: absolute; display: flex; width: 100%; align-items: center; padding: 20px">
 
                 <!--player health bar-->
-                <div style="position: relative; height: 30px; width: calc(50%); display: flex; justify-content: flex-end">
-                    <div style="background-color: red; height: 30px; width: 100%; border: 3px solid white"></div>
-                    <div id="playerHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; width: 100%; border: 3px solid white;"></div>
+                <div style="position: relative; height: 5vh; width: calc(50%); display: flex; justify-content: flex-end">
+                    <div style="background-color: red; height: 5vh; width: 100%; border: 0.5vh solid white"></div>
+                    <div id="playerHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; width: 100%; border: 0.5vh solid white;"></div>
                     </div>
                     <div></div>
 
@@ -150,9 +150,9 @@
                 </div>
 
                 <!--enemy health bar-->
-                <div style="position: relative; height: 30px; width: calc(50%)">
-                <div style="background-color: red; height: 30px; border: 3px solid white"></div>
-                <div id="enemyHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; left: 0; border: 3px solid white;"></div>
+                <div style="position: relative; height: 5vh; width: calc(50%)">
+                <div style="background-color: red; height: 5vh; border: 0.5vh solid white"></div>
+                <div id="enemyHealth" style="position: absolute; background: yellow; top: 0; right: 0; bottom: 0; left: 0; border: 0.5vh solid white;"></div>
                 </div>
                 <div></div>
             </div>
@@ -188,7 +188,7 @@
             <div id="enemyDeathAnimationContainer" style="position: absolute; top: 0; left: 0;"></div>
 
             <!--container for winner text and play again button-->
-            <div id="displayText" style="position: absolute; color: white; display: none; text-align: center; vertical-align: middle; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'upheaval'; font-size: 75px;"></div>
+            <div id="displayText" style="position: absolute; color: white; display: none; text-align: center; vertical-align: middle; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'upheaval'; font-size: 15vh;"></div>
             <button id="playAgain" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
                 Play Again
             </button>
